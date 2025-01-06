@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">{{ month }} Schedule</h1>
+    
+    <div class="grid grid-cols-7 gap-4">
+        <div class="font-bold text-center">Sun</div>
+        <div class="font-bold text-center">Mon</div>
+        <div class="font-bold text-center">Tue</div>
+        <div class="font-bold text-center">Wed</div>
+        <div class="font-bold text-center">Thu</div>
+        <div class="font-bold text-center">Fri</div>
+        <div class="font-bold text-center">Sat</div>
+        
+        {% for week in calendar_data %}
+            {% for day in week %}
+                {% if day %}
+                    <div class="border p-2 min-h-[100px] {% if day.holiday %}bg-red-100{% endif %}">
+                        <div class="font-bold">{{ day.day }}</div>
+                        {% if day.holiday %}
+                            <div class="text-red-600">{{ day.holiday.name }}</div>
+                        {% endif %}
+                        {% for schedule in day.shifts %}
+                            <div class="text-sm bg-blue-100 p-1 mt-1 rounded">
+                                {{ schedule.shift.name }}<br>
+                                {{ schedule.shift.start_time|time:"H:i" }} - {{ schedule.shift.end_time|time:"H:i" }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="border p-2 bg-gray-100"></div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

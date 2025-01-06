@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>Welcome to the Employee Roster App</h1>
+    <p>Manage employee schedules and information with ease.</p>
+    
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Logout</a>
+        
+        <div class="calendar mt-4">
+            <h2>Your Shifts for {{ now|date:"F Y" }}</h2>
+            <div class="calendar-container">
+                {{ calendar|safe }}
+            </div>
+        </div>
+
+         <!-- Button to edit profile -->
+         <div class="profile-actions mt-4">
+            <h3>Manage Your Profile</h3>
+            <a href="{% url 'accounts:profile' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+
+        <!-- Add a button to view the employee roster -->
+        <div class="mt-4">
+            <a href="{% url 'roster:view_roster' %}" class="btn btn-info">View Employee Roster</a>
+        </div>
+
+        <!-- Add a button to take to leave request form-->
+        <div class="mt-4">
+            <a href="{% url 'leave:leave_list' %}" class="btn btn-warning">Request Leave</a>
+        </div>
+
+
+    {% else %}
+        <p>You are not logged in.</p>
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-secondary">Register</a>
+    {% endif %}
+</div>
+
+<style>
+    .calendar-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .calendar-container th, .calendar-container td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    .calendar-container td {
+        height: 50px;
+        vertical-align: middle;
+    }
+    .calendar-container td:hover {
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+    .tooltip {
+        display: block;
+        font-size: 12px;
+        color: gray;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}

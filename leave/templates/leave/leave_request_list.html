@@ -1,0 +1,33 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Employee</th>
+            <th>Reason</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in leave_requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.user.username }}</td>
+                <td>{{ request.reason }}</td>
+                <td>{{ request.date }}</td>
+                <td>{{ request.get_status_display }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Add a button to navigate to the leave request form -->
+<div class="mt-4">
+    <a href="{% url 'leave:leave_request' %}" class="btn btn-primary">Request Leave</a>
+</div>
+
+{% if has_subordinates %}
+    <div class="mt-4">
+        <a href="{% url 'leave:pending_leave_requests' %}" class="btn btn-primary">View Employee Leave Requests</a>
+    </div>
+{% endif %}
